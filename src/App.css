@@ -19,275 +19,6 @@ body {
   margin: 20px auto;
   max-width: 90%;
 }
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f4;
-}
-
-/* Header */
-header {
-  background-color: #004080;
-  color: white;
-  padding: 20px;
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-header img {
-  width: 80px;
-  height: 80px;
-}
-
-header h1 {
-  margin: 0;
-  font-size: 24px;
-}
-
-/* Navigation Bar */
-nav {
-  background-color: #003366;
-  padding: 10px;
-  display: flex;
-  justify-content: space-around;
-}
-
-nav a {
-  color: white;
-  text-decoration: none;
-  font-size: 18px;
-  padding: 10px 10px;
-}
-
-nav a:hover {
-  text-decoration: underline;
-}
-
-/* Main Content */
-main.login, main.index {
-  padding: 20px;
-  text-align: center;
-  align-items: center;
-  margin: 20px auto;
-  max-width: 90%;
-}
-
-/* Login Form */
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #d4d4d4;
-  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.1);
-  border-radius: 30px;
-  padding: 30px;
-  margin: 0px 150px;
-  max-width: 100%;
-}
-
-input[type="text"], input[type="password"] {
-  width: 250px;
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  border: 3px solid #b2b2b2;
-  background-color: lightyellow;
-}
-
-.loginStatusBox {
-  display: none;
-  justify-content: center;
-  border-width: 3px;
-  border-style: solid;
-  border-color: black;
-  margin: 20px;
-}
-
-/* Buttons */
-main button {
-  background-color: #008000;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
-}
-
-main button:hover {
-  background-color: #006600;
-}
-
-main a[href="#"] {
-  color: #004080;
-  text-decoration: none;
-}
-
-main a[href="#"]:hover {
-  text-decoration: underline;
-}
-
-/* Course View */
-main.courseview {
-  padding: 20px;
-  text-align: center;
-  align-items: center;
-  margin: 20px;
-  max-width: 100%;
-}
-
-select {
-  background-color: lightyellow;
-  border-radius: 5px;
-  padding: 5px;
-}
-
-table {
-  margin-top: 20px;
-  width: 100%;
-}
-
-table.cv td {
-  text-align: center;
-  padding: 20px;
-  margin: 0 15px 10px 0;
-  background-color: #e6f2ff;
-  border-radius: 10px;
-  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.1);
-}
-
-table.cv td img {
-  width: 100%;
-  border-radius: 5px;
-}
-
-/* Pending Courses */
-button.accept {
-  background-color: #4CAF50;
-}
-button.accept:hover {
-  background-color: #265e28;
-}
-
-button.decline {
-  background-color: #D32F2F;
-}
-button.decline:hover {
-  background-color: #821b1b;
-}
-
-/* Attempt Quiz */
-main.attemptquiz {
-  padding: 20px;
-  text-align: center;
-  align-items: center;
-  margin: 20px;
-  max-width: 100%;
-}
-
-main.attemptquiz img {
-  width: 100%;
-  height: 150px;
-  border-radius: 5px;
-}
-
-main.attemptquiz .quizdetails {
-  margin: 0 250px;
-  background-color: lightblue;
-  padding: 20px;
-  text-align: center;
-}
-
-main.attemptquiz .Qs {
-  margin: 0 550px;
-  background-color: #cacaca;
-  padding: 20px;
-  text-align: left;
-}
-
-button.ans {
-  background-color: lightblue;
-  color: black;
-}
-button.ans:hover {
-  background-color: #003366;
-  color: white;
-}
-
-button.FinQz {
-  background-color: #D32F2F;
-}
-button.FinQz:hover {
-  background-color: #821b1b;
-}
-
-h2 {
-  color: #004080;
-}
-
-p {
-  font-size: 18px;
-}
-
-/* Leaderboard */
-main.leaderboard tr.heading {
-  background-color: #4CAF50;
-  color: white;
-  font-size: 36px;
-}
-
-table.leadertab {
-  border-collapse: separate;
-  width: 100%;
-  text-align: center;
-  font-size: 20px;
-}
-
-tr.first {
-  background-color: #FFD700;
-}
-
-tr.second {
-  background-color: #C0C0C0;
-}
-
-tr.third {
-  background-color: #CD7F32;
-}
-
-tr.odd {
-  background-color: #f9f9f9;
-}
-
-tr.even {
-  background-color: #e4e2e2;
-}
-
-table.leadertab td img {
-  width: 100%;
-  border-radius: 50px;
-  border: 1px solid #000000;
-}
-
-/* Footer */
-footer {
-  background-color: #004080;
-  color: white;
-  text-align: center;
-  padding: 10px;
-  margin-top: 20px;
-}
-
-.signupBtn {
-  background-color: #4CAF50;
-  padding: 10px;
-  border-radius: 5px;
-  margin: 10px;
-  opacity: 0.5;
-}
 
 main.signup {
   padding: 20px;
@@ -309,6 +40,30 @@ main.signup form {
   max-width: 100%;
 }
 
+input[type="text"],
+input[type="password"] {
+  width: 250px;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  border: 3px solid #b2b2b2;
+  background-color: lightyellow;
+}
+
+.signupBtn {
+  background-color: #4CAF50;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.signupBtn:hover {
+  background-color: #45A049;
+  opacity: 1.0;
+}
+
 #errorBox {
   display: none;
   justify-content: center;
@@ -318,21 +73,4 @@ main.signup form {
   margin-right: auto;
   width: 100%;
   padding: 10px;
-}
-
-.loginStatusBox.success {
-  display: none;
-  justify-content: center;
-  border: 3px solid black;
-  margin-top: 20px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  padding: 10px;
-}
-
-#signupForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
