@@ -10,7 +10,7 @@ const Header = () => {
     <header className={styles.header}>
       <div className={styles.logoContainer}>
         <img 
-          src="/images/logo.jpg" 
+          src="/public/images/logo.jpg" 
           alt="LMS Logo" 
           className={styles.logo}
         />

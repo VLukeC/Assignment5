@@ -54,7 +54,7 @@ function RegForm() {
         email: email.trim(),
       };
 
-      fetch('http://localhost:5000/register', {
+      fetch('http://127.0.0.1:5000/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -64,7 +64,7 @@ function RegForm() {
           if (data.success) {
             setMessage('Signup successful! Redirecting to login...');
             setTimeout(() => {
-              window.location.href = 'login.html';
+              window.location.href = 'login';
             }, 2000);
           } else {
             setErrors(data.errors || ['An error occurred. Please try again.']);
@@ -89,52 +89,54 @@ function RegForm() {
   };
 
   return (
-    <form id="signupForm" onSubmit={handleSignup}>
-      <label htmlFor="username">Username:</label>
-      <input
-        type="text"
-        id="username"
-        name="username"
-        required
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <label htmlFor="password">Password:</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        required
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <label htmlFor="confirmPassword">Confirm Password:</label>
-      <input
-        type="password"
-        id="confirmPassword"
-        name="confirmPassword"
-        required
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-      />
-      <label htmlFor="email">Email:</label>
-      <input
-        type="text"
-        id="email"
-        name="email"
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <button
-        type="submit"
-        className="signupBtn"
-        id="signupBtn"
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}
-      >
-        Sign Up
-      </button>
+    <>
+      <form id="signupForm" onSubmit={handleSignup}>
+        <label htmlFor="username">Username:</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          required
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <label htmlFor="confirmPassword">Confirm Password:</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          required
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <label htmlFor="email">Email:</label>
+        <input
+          type="text"
+          id="email"
+          name="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <button
+          type="submit"
+          className="signupBtn"
+          id="signupBtn"
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}
+        >
+          Sign Up
+        </button>
+      </form>
       {(errors.length > 0 || message) && (
         <div id="errorBox" className="loginStatusBox" style={{ display: 'flex' }}>
           <p id="errorMessages">
@@ -144,8 +146,8 @@ function RegForm() {
       )}
       <br />
       <br />
-      <a href="login.html">Already have an account? Login here</a>
-    </form>
+      <a href="login">Already have an account? Login here</a>
+    </>
   );
 }
 
