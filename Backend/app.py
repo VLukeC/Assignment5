@@ -14,9 +14,13 @@ with open(courses) as file:
     courses_data = json.load(file)
 
 students = [
-    {'ID': 1, 'Username': 'student1', 'Password': 'password1'
-     , 'Email' : 'email@email.com', 
-     'Enrolled_courses' : []},
+    {
+        'ID': 1,
+        'Username': 'student1',
+        'Password': 'password1',
+        'Email': 'email@email.com',
+        'Enrolled_courses': []
+    },
 ]
 
 @app.route('/register', methods=['POST'])
@@ -24,7 +28,7 @@ def register():
     data = request.get_json()
     for student in students:
         if student['Username'] == data['username']:
-            return {'message': 'Username is already taken'}
+            return jsonify({'success': False, 'message': 'Username is already taken'})
     students.append({
         'ID': len(students) + 1,
         'Username': data['username'],
@@ -32,7 +36,7 @@ def register():
         'Email': data['email'],
         'Enrolled_courses': []
     })
-    return {'message': 'Registration successful'}
+    return jsonify({'success': True, 'message': 'Registration successful'})
 
 @app.route('/login', methods=['POST'])
 def login():
