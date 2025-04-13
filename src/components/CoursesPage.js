@@ -3,13 +3,14 @@ import Header from './Header';
 import Footer from './Footer';
 import CourseItem from './CourseItem';
 import EnrollmentList from './EnrollmentList';
-import courses from '../data/courses';
 import { useAuth } from '../context/AuthContext';
 
 const CoursesPage = () => {
   const [enrolledCourses, setEnrolledCourses] = useState([]);
-  const { student_id } = useContext(AuthContext);
-
+  const [courses, setCourses] = useState([]); 
+  const { user } = useAuth(); 
+  const student_id = user.student_id; 
+  console.log(user);
   const fetchEnrolledCourses = () => {
     if (!student_id) return;
     fetch(`http://localhost:5000/student_courses/${student_id}`)
@@ -21,8 +22,24 @@ const CoursesPage = () => {
       });
   };
 
+  const fetchCourses = () => {
+    fetch('http://localhost:5000/courses')
+      .then(response => response.json())
+      .then(data => setCourses(data))
+      .then(data => {
+        console.log("Fetched enrolled courses:", data);
+        setEnrolledCourses(data);
+      })
+      
+      .catch(error => {
+        console.error('Error fetching courses:', error);
+        setCourses([]);
+      });
+  };
+
   useEffect(() => {
-    fetchEnrolledCourses();
+    fetchCourses(); 
+    fetchEnrolledCourses(); 
   }, [student_id]);
 
   const handleEnroll = (course) => {
@@ -36,7 +53,7 @@ const CoursesPage = () => {
       headers: { 
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ course })
+      body: JSON.stringify({ 'course' : course })
     })
       .then(response => response.json())
       .then(result => {
@@ -64,13 +81,13 @@ const CoursesPage = () => {
       headers: { 
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ course: { id: course.id } })
+      body: JSON.stringify({ 'course_id' : course })
     })
       .then(response => response.json())
       .then(result => {
         if (result.success) {
           alert(result.message);
-          fetchEnrolledCourses(); // Update the enrollment list on success.
+          fetchEnrolledCourses();
         } else {
           alert(result.message);
         }

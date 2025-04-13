@@ -48,10 +48,10 @@ function RegForm() {
     } else {
       setErrors([]);
       const payload = {
-        username: username.trim(),
-        password: password,
-        confirmPassword: confirmPassword,
-        email: email.trim(),
+        'username': username.trim(),
+        'password': password,
+        'confirmPassword': confirmPassword,
+        'email': email.trim(),
       };
 
       fetch('http://127.0.0.1:5000/register', {

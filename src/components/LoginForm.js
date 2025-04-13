@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
+import styles from './login.module.css';
+
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
@@ -26,10 +29,12 @@ const LoginForm = () => {
       const data = await response.json();
 
       if (data.success) {
-        login({ username, student_id: data.student_id });
+        console.log(data);
+        login({ username, student_id: data.student });
         setTimeout(() => {
           navigate('/courses');
         }, 2000);
+        setError(data.message)
       } else {
         setError(data.message);
       }
@@ -97,6 +102,9 @@ const LoginForm = () => {
       >
         {isLoading ? 'Authenticating...' : 'Login'}
       </button>
+      <div className={styles.signupBox}>
+          <Link to="/signup" className={styles.signupLink}>Don't have an account? Sign Up</Link>
+      </div>
     </form>
   );
 };
