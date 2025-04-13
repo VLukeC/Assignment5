@@ -2,60 +2,31 @@ import React, { useEffect, useState } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
-async function fetchCourses(){
-  const backendEndpoint = "http://127.0.0.1:5000/courses";
-  try {
-    const response = await fetch(backendEndpoint);
-  
-  if (response.ok) {
-    const data = await response.json();
-    return data;
-  }
-  } catch (error) {
-    console.error('Error fetching courses:', error);
-  }
-}
-
-async function fetchTestimonials(){
-  const backendEndpoint = "http://127.0.0.1:5000/testimonials";
-  try {
-    const response = await fetch(backendEndpoint);
-  if (response.ok) {
-    const data = await response.json();
-    return data;
-  }
-  } catch (error) {
-    console.error('Error fetching testimonials:', error);
-  }
-}
-
 const Homepage = () => {
   const [featuredCourses, setFeaturedCourses] = useState([]);
   const [randomTestimonials, setRandomTestimonials] = useState([]);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        
-        const courses = await fetchCourses();
-        const shuffledCourses = courses.sort(() => 0.5 - Math.random());
+    fetch('http://localhost:5000/courses')
+      .then(response => response.json())
+      .then(data => {
+        const shuffledCourses = [...data].sort(() => 0.5 - Math.random());
         setFeaturedCourses(shuffledCourses.slice(0, 3));
+      })
+      .catch(error => console.error("Error fetching courses:", error));
 
-        const testimonials = await fetchTestimonials();
-        const shuffledTestimonials = testimonials.sort(() => 0.5 - Math.random());
-        setRandomTestimonials(shuffledTestimonials.slice(0, 2));
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    }
-
-    fetchData();
+    fetch('http://localhost:5000/testimonials')
+      .then(response => response.json())
+      .then(data => {
+        setRandomTestimonials(data);
+      })
+      .catch(error => console.error("Error fetching testimonials:", error));
   }, []);
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
-      
+
       <main style={{ flex: 1, padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
         {/* About Section */}
         <section style={{ marginBottom: '40px' }}>
@@ -67,7 +38,7 @@ const Homepage = () => {
           </p>
         </section>
 
-        {/* Featured Courses */}
+        {/* Featured Courses Section */}
         <section style={{ marginBottom: '40px' }}>
           <h3 style={{ color: '#004080', marginBottom: '20px' }}>Featured Courses</h3>
           <div style={{ 
@@ -99,7 +70,7 @@ const Homepage = () => {
           </div>
         </section>
 
-        {/* Testimonials */}
+        {/* Testimonials Section */}
         <section>
           <h3 style={{ color: '#004080', marginBottom: '20px' }}>Student Testimonials</h3>
           <div style={{

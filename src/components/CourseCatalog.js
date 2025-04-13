@@ -1,21 +1,41 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import courses from '../data/courses';
 import CourseItem from './CourseItem';
+// Assuming AuthContext provides the logged in student's id
+import { AuthContext } from './LoginForm';
 
 const CourseCatalog = () => {
+  // Retrieve student_id from your authentication context. Adjust the key if needed.
+  const { student_id } = useContext(AuthContext);
+
   const handleEnroll = (course) => {
-    const stored = localStorage.getItem('enrollment');
-    let enrolledCourses = stored ? JSON.parse(stored) : [];
-    const existing = enrolledCourses.find(c => c.id === course.id);
-    if (existing) {
-      enrolledCourses = enrolledCourses.map(c =>
-        c.id === course.id ? { ...c, count: c.count + 1 } : c
-      );
-    } else {
-      enrolledCourses.push({ ...course, count: 1, creditHours: 3 });
+    if (!student_id) {
+      alert("Please log in to enroll in courses.");
+      return;
     }
-    localStorage.setItem('enrollment', JSON.stringify(enrolledCourses));
-    window.dispatchEvent(new Event('enrollmentUpdated'));
+
+    // Call the backend enroll API using student_id and the selected course.
+    fetch(`http://localhost:5000/enroll/${student_id}`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ course })
+    })
+      .then(response => response.json())
+      .then(result => {
+        if (result.success) {
+          alert(result.message);
+          // Optionally, update the frontend state or trigger an event to refresh courses.
+          window.dispatchEvent(new Event('enrollmentUpdated'));
+        } else {
+          alert(result.message);
+        }
+      })
+      .catch(error => {
+        console.error("Enrollment error:", error);
+        alert("Error enrolling in course.");
+      });
   };
 
   return (

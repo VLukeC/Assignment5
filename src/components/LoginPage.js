@@ -11,7 +11,7 @@ const LoginPage = () => {
       flexDirection: 'column' 
     }}>
       <Header />
-      
+
       <main style={{ 
         flex: 1, 
         display: 'flex', 

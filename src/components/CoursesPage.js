@@ -1,55 +1,84 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import CourseItem from './CourseItem';
 import EnrollmentList from './EnrollmentList';
-
-async function fetchCourses() {
-  const backendEndpoint = "http://127.0.0.1:5000/courses";
-  try {
-    const response = await fetch(backendEndpoint);
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    }
-  } catch (error) {
-    console.error('Error fetching courses:', error);
-  }
-  return [];
-}
+import courses from '../data/courses';
+import { useAuth } from '../context/AuthContext';
 
 const CoursesPage = () => {
-  const [courses, setCourses] = useState([]);
-  const [enrolledCourses, setEnrolledCourses] = useState(() => {
-    const saved = localStorage.getItem('enrollments');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [enrolledCourses, setEnrolledCourses] = useState([]);
+  const { student_id } = useContext(AuthContext);
 
-  // Fetch courses 
-  useEffect(() => {
-    const loadCourses = async () => {
-      const fetchedCourses = await fetchCourses();
-      setCourses(fetchedCourses);
-    };
-    loadCourses();
-  }, []);
-
-  // Save enrollments 
-  useEffect(() => {
-    localStorage.setItem('enrollments', JSON.stringify(enrolledCourses));
-  }, [enrolledCourses]);
-
-  const handleEnroll = (course) => {
-    setEnrolledCourses(prev => [...prev, { 
-      ...course,
-      enrollmentId: Date.now() 
-    }]);
+  const fetchEnrolledCourses = () => {
+    if (!student_id) return;
+    fetch(`http://localhost:5000/student_courses/${student_id}`)
+      .then(response => response.json())
+      .then(data => setEnrolledCourses(data))
+      .catch(error => {
+        console.error('Error fetching enrolled courses:', error);
+        setEnrolledCourses([]);
+      });
   };
 
-  const handleRemove = (enrollmentId) => {
-    setEnrolledCourses(prev => 
-      prev.filter(course => course.enrollmentId !== enrollmentId)
-    );
+  useEffect(() => {
+    fetchEnrolledCourses();
+  }, [student_id]);
+
+  const handleEnroll = (course) => {
+    if (!student_id) {
+      alert("Please log in to enroll in courses.");
+      return;
+    }
+
+    fetch(`http://localhost:5000/enroll/${student_id}`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ course })
+    })
+      .then(response => response.json())
+      .then(result => {
+        if (result.success) {
+          alert(result.message);
+          fetchEnrolledCourses(); 
+        } else {
+          alert(result.message);
+        }
+      })
+      .catch(error => {
+        console.error("Error enrolling in course:", error);
+        alert("Error enrolling in course.");
+      });
+  };
+
+  const handleRemove = (course) => {
+    if (!student_id) {
+      alert("Please log in to manage your enrollments.");
+      return;
+    }
+    
+    fetch(`http://localhost:5000/drop/${student_id}`, {
+      method: 'DELETE',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ course: { id: course.id } })
+    })
+      .then(response => response.json())
+      .then(result => {
+        if (result.success) {
+          alert(result.message);
+          fetchEnrolledCourses(); // Update the enrollment list on success.
+        } else {
+          alert(result.message);
+        }
+      })
+      .catch(error => {
+        console.error("Error dropping course:", error);
+        alert("Error dropping course.");
+      });
   };
 
   return (

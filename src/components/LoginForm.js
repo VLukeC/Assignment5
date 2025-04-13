@@ -12,36 +12,32 @@ const LoginForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-        if (username === '' || password === '') {
-            setError('Username and password cannot be empty.');
-            return;
-        }
+    setIsLoading(true);
+    setError('');
 
-        const backendEndpoint = "http://127.0.0.1:5000/login";
-        try {
-            const response = await fetch(backendEndpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ 'username': username, 'password': password }),
-            });
-            const data = await response.json();
-            if (response.ok) {
-                if (data['result'] === 'success') {
-                    setError('');
-                    login(data['user']);
-                    setTimeout(() => navigate("/courses"), 2000);
-                } else {
-                    setError('Invalid username or password.');
-                }
-            } else {
-                setError('Form submission failed.');
-            }
-        } catch (error) {
-            console.error(error);
-            setError('An error occurred. Please try again.');
-        }
+    try {
+      const response = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        login({ username, student_id: data.student_id });
+        setTimeout(() => {
+          navigate('/courses');
+        }, 2000);
+      } else {
+        setError(data.message);
+      }
+    } catch (err) {
+      setError('Failed to connect to the server. Please try again later.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

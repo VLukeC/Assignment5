@@ -3,7 +3,7 @@ import React from 'react';
 const EnrollmentList = ({ enrolledCourses = [], onRemove }) => {
   const totalCredits = enrolledCourses.reduce((sum, course) => {
     const weeks = parseInt(course.duration.match(/\d+/)?.[0] || 0);
-    return sum + weeks;
+    return sum + (weeks * (course.count || 1));
   }, 0);
 
   return (
@@ -26,7 +26,7 @@ const EnrollmentList = ({ enrolledCourses = [], onRemove }) => {
           <div style={{ marginBottom: '20px' }}>
             {enrolledCourses.map(course => (
               <div 
-                key={course.enrollmentId}
+                key={course.id}
                 style={{
                   backgroundColor: 'white',
                   borderRadius: '8px',
@@ -40,6 +40,10 @@ const EnrollmentList = ({ enrolledCourses = [], onRemove }) => {
                 <p style={{ margin: '5px 0', fontSize: '0.9em' }}>
                   Instructor: {course.instructor}
                 </p>
+                {/* Display the number of enrollments for the course */}
+                <p style={{ margin: '5px 0', fontSize: '0.9em' }}>
+                  Enrolled: {course.count}
+                </p>
                 <div style={{ 
                   display: 'flex',
                   justifyContent: 'space-between',
@@ -47,7 +51,7 @@ const EnrollmentList = ({ enrolledCourses = [], onRemove }) => {
                 }}>
                   <span style={{ fontSize: '0.9em' }}>{course.duration}</span>
                   <button
-                    onClick={() => onRemove(course.enrollmentId)}
+                    onClick={() => onRemove(course.id)}
                     style={{
                       padding: '5px 10px',
                       backgroundColor: '#dc3545',
@@ -55,11 +59,10 @@ const EnrollmentList = ({ enrolledCourses = [], onRemove }) => {
                       border: 'none',
                       borderRadius: '4px',
                       cursor: 'pointer',
-                      transition: 'background-color 0.2s',
-                      ':hover': {
-                        backgroundColor: '#c82333'
-                      }
+                      transition: 'background-color 0.2s'
                     }}
+                    onMouseEnter={e => e.target.style.backgroundColor = '#c82333'}
+                    onMouseLeave={e => e.target.style.backgroundColor = '#dc3545'}
                   >
                     Drop
                   </button>
